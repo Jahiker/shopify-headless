@@ -1,60 +1,15 @@
-import { useState, useEffect } from "react";
 import { ProductCard } from "./";
 
-interface ProductListProps {
-  client: any;
-}
+import { Edge } from "../models/Product";
 
-export const ProductList = ({ client }: ProductListProps) => {
-  const [products, setProducts] = useState([]);
+import { useProduct } from "../hooks/useProduct";
 
-  const getProducts = async () => {
-    const productListQuery = `{
-        products(first:20) {
-            edges {
-                node {
-                    id,
-                    title,
-                    handle,
-                    description,
-                    vendor,
-                    tags,
-                    handle,
-                    priceRange { 
-                        minVariantPrice {
-                            amount}, 
-                        maxVariantPrice {
-                            amount
-                        }
-                    },
-                    featuredImage {
-                        url
-                    }
-                }
-            }
-        }
-    }`;
-
-    const { data, errors, extensions } = await client.request(productListQuery, {
-      variables: {
-        handle: "sample-product",
-      },
-    });
-
-    console.log({ data, errors, extensions });
-
-    if (!data) return;
-
-    setProducts(data.products.edges);
-  };
-
-  useEffect(() => {
-    getProducts();
-  }, []);
+export const ProductList = () => {
+  const { productList } = useProduct();
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      {products.map((product: any) => (
+      {productList.map((product: Edge) => (
         <ProductCard key={product.node.id} product={product.node} />
       ))}
     </div>

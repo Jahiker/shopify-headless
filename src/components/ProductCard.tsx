@@ -1,5 +1,10 @@
 import { Link } from "react-router";
-export const ProductCard = ({ product }: any) => {
+import { Product } from "../models/Product";
+
+interface ProductCardProps {
+  product: Product;
+}
+export const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div className="max-w-sm bg-white shadow-md rounded-lg overflow-hidden">
       <img
@@ -17,7 +22,10 @@ export const ProductCard = ({ product }: any) => {
           </span>
         </div>
         <div className="mt-4 flex items-center justify-between">
-          <Link to={`/product/${product.handle}`} className="px-3 py-1 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
+          <Link
+            to={`/product/${product.handle}`}
+            className="px-3 py-1 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+          >
             View Product
           </Link>
           <span className="text-sm text-gray-600">{product.vendor}</span>
